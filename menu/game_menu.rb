@@ -40,4 +40,9 @@ module GameMenu
     puts "Игрок: #{player.name}. Количество очков: #{player.points}"
     (player.cards.map { |card| "Карта: #{card.rank}#{card.suit}" }).join(' ')
   end
+
+  def user_action
+    puts ACTIONS_MENU
+    gets.to_i
+  end
 end

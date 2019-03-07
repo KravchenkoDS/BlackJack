@@ -40,5 +40,10 @@ class Player
     @cards.each do |card|
       @points += card.point
     end
+    if @points >= MAX_POINTS
+      @cards.each do |card|
+        @points -= 1 if card.ace?
+      end
+    end
   end
 end

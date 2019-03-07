@@ -16,5 +16,6 @@ class Bank
 
   def new_game
     @amount = 0
+    @bank.bets
   end
 end

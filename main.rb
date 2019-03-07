@@ -29,9 +29,8 @@ class Main
 
   def initial_round
     @bank = Bank.new(@player, @dealer)
-    @bank.bets
-    BASIC_CARDS.times {@player.give_card(@deck)}
-    BASIC_CARDS.times {@dealer.give_card(@deck)}
+    BASIC_CARDS.times { @player.give_card(@deck) }
+    BASIC_CARDS.times { @dealer.give_card(@deck) }
   end
 
   def new_round
@@ -46,12 +45,11 @@ class Main
   end
 
   def user_move
-    puts ACTIONS_MENU
-    case gets.to_i
-      when SKIP_CARDS then false
-      when ADD_CARD then @player.give_card(@deck) if @player.can_take_card?
-      when OPEN_CARDS then true
-      else input_not_correct
+    case user_action
+    when SKIP_CARDS then false
+    when ADD_CARD then @player.give_card(@deck) if @player.can_take_card?
+    when OPEN_CARDS then true
+    else input_not_correct
     end
     puts show_cards(@player)
   end
