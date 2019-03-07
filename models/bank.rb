@@ -7,10 +7,9 @@ class Bank
     new_game
   end
 
-  def bet
+  def bets
     @amount += @player.bet
     @amount += @dealer.bet
-    puts @amount
   end
 
   protected

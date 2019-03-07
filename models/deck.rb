@@ -19,4 +19,8 @@ class Deck
     end
     @deck.shuffle
   end
+
+  def give_card
+    @deck.shift
+  end
 end
