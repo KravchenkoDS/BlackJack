@@ -77,8 +77,7 @@ class Main
     case winner
     when WIN_DEALER then puts 'Вы програли!'
     when WIN_PLAYER then puts 'Вы выграли!'
-    when DRAW then puts 'Ничья!'
-    when nil then who_winner
+    else puts 'Ничья!'
     end
   end
 
@@ -92,7 +91,7 @@ class Main
   def winner_on_points
     winner = [@player, @dealer].max_by(&:points)
     winner.money = @bank.amount
-    return winner
+    winner
   end
 
   def show_result_game
