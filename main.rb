@@ -22,7 +22,7 @@ class Main
       initial_round
       new_round
       totals_game
-      show_rezult_game
+      show_result_game
     end
     game_end_message
   end
@@ -92,7 +92,7 @@ class Main
     winner.money = @bank.amount
   end
 
-  def show_rezult_game
+  def show_result_game
     who_winner
     show_cards(@player)
     show_money(@player)
