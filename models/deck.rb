@@ -17,7 +17,7 @@ class Deck
         @deck << Card.new(suit, rank, Card::VALUES[index])
       end
     end
-    @deck.shuffle
+    @deck.shuffle!.shuffle!
   end
 
   def give_card

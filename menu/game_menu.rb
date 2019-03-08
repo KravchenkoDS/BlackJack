@@ -13,11 +13,7 @@ module GameMenu
     '3 - Открыть карты'
   ].freeze
 
-  REPEAT_GAME_MENU = [
-    'Повторить игру?',
-    '1 - Да',
-    '2 - Нет'
-  ].freeze
+  REPEAT_GAME = 'Для повтора игры нажмите - 1. Либо любую другую для выхода'.freeze
 
   def game_start_message
     puts GAME_START
@@ -47,6 +43,11 @@ module GameMenu
 
   def user_action
     puts ACTIONS_MENU
+    gets.to_i
+  end
+
+  def play_again?
+    puts REPEAT_GAME
     gets.to_i
   end
 end

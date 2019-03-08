@@ -23,6 +23,7 @@ class Main
       new_round
       totals_game
       show_result_game
+      break unless repeat_game?
     end
     game_end_message
   end
@@ -76,28 +77,36 @@ class Main
     case winner
     when WIN_DEALER then puts 'Вы програли!'
     when WIN_PLAYER then puts 'Вы выграли!'
-    else puts'Ничья!'
+    when DRAW then puts 'Ничья!'
+    when nil then who_winner
     end
   end
 
   def define_winner
     return DRAW if @player.over? && @dealer.over?
     return DRAW if @player.points == @dealer.points
-    return WIN_DEALER @dealer if @player.over?
-    return WIN_PLAYER @player if @dealer.over?
+    return WIN_DEALER if @player.over? || @dealer == winner_on_points
+    return WIN_PLAYER if @dealer.over? || @player == winner_on_points
   end
 
-  def who_winner
+  def winner_on_points
     winner = [@player, @dealer].max_by(&:points)
     winner.money = @bank.amount
+    return winner
   end
 
   def show_result_game
-    who_winner
     show_cards(@player)
     show_money(@player)
     show_cards(@dealer)
     show_money(@dealer)
+  end
+
+  def repeat_game?
+    case play_again?
+    when 1 then true
+    else false
+    end
   end
 end
 
