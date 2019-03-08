@@ -6,6 +6,7 @@ class Player
   NO_MONEY = 'Нет денег'.freeze
   BET = 10
   MAX_CARDS = 3
+  MAX_POINTS = 21
 
   def initialize(name)
     @name = name
@@ -34,9 +35,18 @@ class Player
     @cards.size < MAX_CARDS
   end
 
+  def over?
+    @points > MAX_POINTS
+  end
+
+  def add_money(value)
+    @money += value
+  end
+
   private
 
   def count_points
+    @points = 0
     @cards.each do |card|
       @points += card.point
     end

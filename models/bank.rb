@@ -7,15 +7,17 @@ class Bank
     new_game
   end
 
-  def bets
+  def make_bets
     @amount += @player.bet
     @amount += @dealer.bet
   end
+
+  def give_prize; end
 
   protected
 
   def new_game
     @amount = 0
-    @bank.bets
+    make_bets
   end
 end

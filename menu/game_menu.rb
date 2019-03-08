@@ -41,6 +41,10 @@ module GameMenu
     (player.cards.map { |card| "Карта: #{card.rank}#{card.suit}" }).join(' ')
   end
 
+  def show_money(player)
+    puts "Количества денег у '#{player.name}' -- #{player.money}"
+  end
+
   def user_action
     puts ACTIONS_MENU
     gets.to_i
