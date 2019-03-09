@@ -1,4 +1,4 @@
-module GameMenu
+class GameMenu
   GAME_START = 'Приветствую тебя в игре BlackJack'.freeze
   INPUT_PLAYER_NAME = 'Введите Ваше имя'.freeze
   GAME_END = 'Игра окончена!'.freeze
