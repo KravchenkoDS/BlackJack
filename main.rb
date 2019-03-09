@@ -35,11 +35,12 @@ class Main
   end
 
   def new_round
-    puts show_cards(@player)
     loop do
-      user_choice = player_turn
-      break if user_choice
-
+      puts show_cards(@player)
+      case player_turn
+      when :take_card then @player.give_card(@deck) if @player.can_take_card
+      when :open_cards then break
+      end
       dealer_turn
       break if @dealer.cards.size == GameRules::MAX_CARDS && @player.cards.size == GameRules::MAX_CARDS
     end
@@ -48,16 +49,15 @@ class Main
   def player_turn
     user_choice = user_action
     case user_choice
-    when 1 then return false
-    when 2 then @player.give_card(@deck) if @player.can_take_card?
-    when 3 then return true
+    when 1 then return :skip
+    when 2 then return :take_card
+    when 3 then return :open_cards
     else input_not_correct
     end
-    puts show_cards(@player)
   end
 
   def dealer_turn
-    @dealer.give_card(@deck) if @dealer.can_take_card?
+    @dealer.give_card(@deck) if @dealer.can_take_card
   end
 
   def first_distribution
