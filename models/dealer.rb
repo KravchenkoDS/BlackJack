@@ -1,13 +1,11 @@
 require_relative '../models/player'
-
+require_relative '../common/game_rules'
 class Dealer < Player
-  MAX_DEALER_POINTS = 17
-  MAX_CARDS = 3
   def initialize(name = 'Dealer')
     super(name)
   end
 
   def can_take_card?
-    points < MAX_DEALER_POINTS && cards.size < MAX_CARDS
+    points < GameRules::MAX_DEALER_POINTS && cards.size < GameRules::MAX_CARDS
   end
 end

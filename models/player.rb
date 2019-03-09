@@ -1,24 +1,22 @@
+require_relative '../common/game_rules'
+
 class Player
   attr_accessor :name, :money
   attr_reader :cards, :points
 
-  STARTING_MONEY = 100
   NO_MONEY = 'Нет денег'.freeze
-  BET = 10
-  MAX_CARDS = 3
-  MAX_POINTS = 21
 
   def initialize(name)
     @name = name
-    @money = STARTING_MONEY
+    @money = GameRules::STARTING_MONEY
     reset
   end
 
   def bet
-    return NO_MONEY if @money - BET < 0
+    return NO_MONEY if @money - GameRules::BET < 0
 
-    @money -= BET
-    BET
+    @money -= GameRules::BET
+    GameRules::BET
   end
 
   def reset
@@ -32,11 +30,11 @@ class Player
   end
 
   def can_take_card?
-    @cards.size < MAX_CARDS
+    @cards.size < GameRules::MAX_CARDS
   end
 
   def over?
-    @points > MAX_POINTS
+    @points > GameRules::MAX_POINTS
   end
 
   def add_money(value)
@@ -50,7 +48,7 @@ class Player
     @cards.each do |card|
       @points += card.point
     end
-    if @points >= MAX_POINTS
+    if @points >= GameRules::MAX_POINTS
       @cards.each do |card|
         @points -= 1 if card.ace?
       end

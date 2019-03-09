@@ -1,0 +1,11 @@
+module GameRules
+  MAX_POINTS = 21
+  MAX_CARDS = 3
+  MAX_DEALER_POINTS = 17
+  BET = 10
+  STARTING_MONEY = 100
+  BASIC_CARDS = 2
+  WIN_PLAYER = 1
+  WIN_DEALER = 2
+  DRAW = 3
+end

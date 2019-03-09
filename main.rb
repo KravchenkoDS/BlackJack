@@ -7,13 +7,6 @@ require_relative 'menu/game_menu'
 
 class Main
   include GameMenu
-  BASIC_CARDS = 2
-  MAX_POINTS = 21
-  MAX_CARDS = 3
-
-  WIN_PLAYER = 1
-  WIN_DEALER = 2
-  DRAW = 3
 
   def start
     game_start_message
@@ -48,7 +41,7 @@ class Main
       break if user_choice
 
       dealer_turn
-      break if @dealer.cards.size == MAX_CARDS && @player.cards.size == MAX_CARDS
+      break if @dealer.cards.size == GameRules::MAX_CARDS && @player.cards.size == GameRules::MAX_CARDS
     end
   end
 
@@ -68,24 +61,24 @@ class Main
   end
 
   def first_distribution
-    BASIC_CARDS.times { @player.give_card(@deck) }
-    BASIC_CARDS.times { @dealer.give_card(@deck) }
+    GameRules::BASIC_CARDS.times { @player.give_card(@deck) }
+    GameRules::BASIC_CARDS.times { @dealer.give_card(@deck) }
   end
 
   def totals_game
     winner = define_winner
     case winner
-    when WIN_DEALER then puts 'Вы програли!'
-    when WIN_PLAYER then puts 'Вы выграли!'
+    when GameRules::WIN_DEALER then puts 'Вы програли!'
+    when GameRules::WIN_PLAYER then puts 'Вы выграли!'
     else puts 'Ничья!'
     end
   end
 
   def define_winner
-    return DRAW if @player.over? && @dealer.over?
-    return DRAW if @player.points == @dealer.points
-    return WIN_DEALER if @player.over? || @dealer == winner_on_points
-    return WIN_PLAYER if @dealer.over? || @player == winner_on_points
+    return GameRules::DRAW if @player.over? && @dealer.over?
+    return GameRules::DRAW if @player.points == @dealer.points
+    return GameRules::WIN_DEALER if @player.over? || @dealer == winner_on_points
+    return GameRules::WIN_PLAYER if @dealer.over? || @player == winner_on_points
   end
 
   def winner_on_points
