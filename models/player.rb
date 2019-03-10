@@ -1,7 +1,3 @@
-require_relative '../models/hand'
-require_relative '../models/bank'
-require_relative '../common/game_rules'
-
 class Player
   attr_accessor :name
   attr_reader :money, :hand, :bank
@@ -13,13 +9,6 @@ class Player
     @bank = Bank.new
     reset
   end
-
-  # def bet
-  #   return GameRules::NO_MONEY if @money - GameRules::BET < 0
-  #
-  #   @money -= GameRules::BET
-  #   GameRules::BET
-  # end
 
   def take_card(deck)
     @hand.give_card(deck)
@@ -44,6 +33,13 @@ class Player
   def over?
     @hand.points > GameRules::MAX_POINTS
   end
+
+  #   def bet
+  #     return GameRules::NO_MONEY if @money - GameRules::BET < 0
+  #
+  #     @money -= GameRules::BET
+  #     GameRules::BET
+  #   end
 
   # def add_money(value)
   #   @money += value

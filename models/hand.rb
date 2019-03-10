@@ -1,8 +1,3 @@
-require_relative '../models/card'
-require_relative '../models/deck'
-require_relative '../menu/game_menu'
-require_relative '../common/game_rules'
-
 class Hand
   attr_reader :cards, :points
 

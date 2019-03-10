@@ -1,5 +1,8 @@
+require_relative '../models/player'
+require_relative '../models/dealer'
+
 class Bank
-  attr_reader :amount, bet
+  attr_reader :amount, :bet
 
   def initialize
     new_game

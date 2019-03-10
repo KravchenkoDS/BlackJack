@@ -26,8 +26,8 @@ class Game
   def initial_round
     @player.reset
     @dealer.reset
-    @bank.set_start_amount(@player, @dealer)
-    @bank.make_bets(@player, @dealer)
+    #  @bank.set_start_amount(@player, @dealer)
+    #  @bank.make_bets(@player, @dealer)
     first_distribution
   end
 
@@ -64,7 +64,7 @@ class Game
   def totals_game
     winner = define_winner
     if winner
-      @bank.rewarding(winner)
+      #  @bank.rewarding(winner)
       @interface.show_winner(winner)
     else
       @interface.show_draw

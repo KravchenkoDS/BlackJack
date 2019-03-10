@@ -14,8 +14,8 @@ class Main
 
   def start
     @interface.game_start_message
-    @dealer = Dealer.new
     @player = Player.new(@interface.input_user_name)
+    @dealer = Dealer.new
     loop do
       game = Game.new(@player, @dealer, @interface)
       game.new_game
