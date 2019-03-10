@@ -1,30 +1,33 @@
 class Bank
-  attr_reader :amount
+  attr_reader :amount, bet
 
-  def initialize(player, dealer)
-    @player = player
-    @dealer = dealer
+  def initialize
     new_game
   end
 
-  def make_bets
-    @amount += @player.bet
-    @amount += @dealer.bet
+  def make_bets(player, dealer)
+    @amount += player.bank.bet
+    @amount += dealer.bank.bet
   end
 
-  def set_start_amount
-    @money += GameRules::STARTING_MONEY
+  def set_start_amount(player, dealer)
+    player.money += GameRules::STARTING_MONEY
+    dealer.money += GameRules::STARTING_MONEY
+  end
+
+  def add_money(player, dealer)
+    player.money += player.bank.bet
+    dealer.money += dealer.bank.bet
   end
 
   def rewarding(winner)
-    winner.add_money(@bank.amount)
-    new_game
+    winner.add_money(@amount)
   end
 
   protected
 
   def new_game
     @amount = 0
-    make_bets
+    @bet = GameRules::BET
   end
 end

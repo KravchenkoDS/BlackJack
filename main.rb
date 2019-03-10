@@ -1,5 +1,5 @@
 require_relative 'models/card'
-# require_relative 'models/player'
+require_relative 'models/player'
 require_relative 'models/bank'
 require_relative 'models/dealer'
 require_relative 'models/deck'
@@ -14,8 +14,10 @@ class Main
 
   def start
     @interface.game_start_message
+    @dealer = Dealer.new
+    @player = Player.new(@interface.input_user_name)
     loop do
-      game = Game.new(@interface)
+      game = Game.new(@player, @dealer, @interface)
       game.new_game
       break unless game.repeat_game?
     end

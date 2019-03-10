@@ -8,12 +8,12 @@ require_relative '../menu/game_menu'
 require_relative '../common/game_rules'
 
 class Game
-  def initialize(interface)
+  def initialize(player, dealer, interface)
     @interface = interface
     @deck = Deck.new
-    @dealer = Dealer.new
-    @player = Player.new(@interface.input_user_name)
-    @bank = Bank.new(@player, @dealer)
+    @player = player
+    @dealer = dealer
+    @bank = Bank.new
   end
 
   def new_game
@@ -26,6 +26,8 @@ class Game
   def initial_round
     @player.reset
     @dealer.reset
+    @bank.set_start_amount(@player, @dealer)
+    @bank.make_bets(@player, @dealer)
     first_distribution
   end
 

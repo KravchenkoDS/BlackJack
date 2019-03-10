@@ -1,25 +1,25 @@
 require_relative '../models/hand'
+require_relative '../models/bank'
 require_relative '../common/game_rules'
 
 class Player
   attr_accessor :name
-  attr_reader :money, :hand
-
-  NO_MONEY = 'Нет денег'.freeze
+  attr_reader :money, :hand, :bank
 
   def initialize(name)
     @name = name
-    @money = GameRules::STARTING_MONEY
+    @money = 0
     @hand = Hand.new
+    @bank = Bank.new
     reset
   end
 
-  def bet
-    return NO_MONEY if @money - GameRules::BET < 0
-
-    @money -= GameRules::BET
-    GameRules::BET
-  end
+  # def bet
+  #   return GameRules::NO_MONEY if @money - GameRules::BET < 0
+  #
+  #   @money -= GameRules::BET
+  #   GameRules::BET
+  # end
 
   def take_card(deck)
     @hand.give_card(deck)
@@ -45,7 +45,7 @@ class Player
     @hand.points > GameRules::MAX_POINTS
   end
 
-  def add_money(value)
-    @money += value
-  end
+  # def add_money(value)
+  #   @money += value
+  # end
 end
