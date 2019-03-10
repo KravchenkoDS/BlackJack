@@ -18,7 +18,7 @@ class GameMenu
   end
 
   def show_cards(player)
-    puts "Игрок: #{player.name}. Количество очков: #{player.hand.points}"
+    puts "Игрок: #{player.name}. Количество очков: #{player.points}"
     (player.cards.map { |card| "Карта: #{card.rank}#{card.suit}" }).join(' ')
   end
 

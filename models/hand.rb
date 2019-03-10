@@ -1,5 +1,5 @@
 class Hand
-  attr_reader :cards, :points
+  attr_reader :cards
 
   def initialize
     @cards = []
@@ -13,16 +13,18 @@ class Hand
 
   def give_card(deck)
     @cards << deck.give_card
-    count_points
+    ace_corrector_point
+  end
+
+  def points
+    @cards.map(&:point).sum
   end
 
   private
 
-  def count_points
-    @points = 0
+  def ace_corrector_point
     @cards.each do |card|
-      @points += card.point
-      @points -= GameRules::MIN_VALUE_ACE if card.ace? && @points > GameRules::MAX_POINTS
+      card.point -= GameRules::MIN_VALUE_ACE if card.ace? && @points > GameRules::MAX_POINTS
     end
   end
 end
