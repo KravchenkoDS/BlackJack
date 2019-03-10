@@ -1,12 +1,3 @@
-require_relative '../models/card'
-require_relative '../models/player'
-require_relative '../models/bank'
-require_relative '../models/dealer'
-require_relative '../models/deck'
-require_relative '../models/hand'
-require_relative '../menu/game_menu'
-require_relative '../common/game_rules'
-
 class Game
   def initialize(player, dealer, interface)
     @interface = interface
@@ -26,8 +17,8 @@ class Game
   def initial_round
     @player.reset
     @dealer.reset
-    #  @bank.set_start_amount(@player, @dealer)
-    #  @bank.make_bets(@player, @dealer)
+    @bank.set_start_amount(@player, @dealer)
+    @bank.make_bets(@player, @dealer)
     first_distribution
   end
 
