@@ -1,6 +1,7 @@
 require_relative '../models/card'
 require_relative '../models/deck'
 require_relative '../menu/game_menu'
+require_relative '../common/game_rules'
 
 class Hand
   attr_reader :cards, :points
@@ -26,7 +27,7 @@ class Hand
     @points = 0
     @cards.each do |card|
       @points += card.point
-      @points -= GameRules::MIN_VALUE_ACE if card.ace? && @points > MAX_POINTS
+      @points -= GameRules::MIN_VALUE_ACE if card.ace? && @points > GameRules::MAX_POINTS
     end
   end
 end

@@ -32,10 +32,9 @@ class Game
   def new_round
     loop do
       puts @interface.show_cards(@player)
-      case player_turn
-      when :take_card then @player.take_card(@deck) if @player.can_take_card
-      when :open_cards then break
-      end
+
+      break if player_turn
+
       dealer_turn
       break if @dealer.hand.cards.size == GameRules::MAX_CARDS && @player.hand.cards.size == GameRules::MAX_CARDS
     end
@@ -44,9 +43,9 @@ class Game
   def player_turn
     user_choice = @interface.user_action
     case user_choice
-    when 1 then return :skip
-    when 2 then return :take_card
-    when 3 then return :open_cards
+    when :skip then return false
+    when :take_card then @player.take_card(@deck) if @player.can_take_card
+    when :open_cards then true
     else @interface.input_not_correct
     end
   end
@@ -62,25 +61,21 @@ class Game
 
   def totals_game
     winner = define_winner
-    case winner
-    when GameRules::WIN_DEALER then puts 'Вы програли!'
-    when GameRules::WIN_PLAYER then puts 'Вы выграли!'
-    else puts 'Ничья!'
+    if winner
+      @bank.rewarding(winner)
+      @interface.show_winner(winner)
+    else
+      @interface.show_draw
     end
   end
 
   def define_winner
-    return GameRules::DRAW if @player.over? && @dealer.over?
-    return GameRules::DRAW if @player.hand.points == @dealer.hand.points
-    return GameRules::WIN_DEALER if @player.over? || @dealer == winner_on_points
-    return GameRules::WIN_PLAYER if @dealer.over? || @player == winner_on_points
-  end
+    return if @dealer.points > GameRules::MAX_POINTS && @player.points > GameRules::MAX_POINTS
+    return if @dealer.points == @player.points
+    return @player if @dealer.points > GameRules::MAX_POINTS
+    return @dealer if @player.points > GameRules::MAX_POINTS
 
-  def winner_on_points
-    winner = [@player.hand, @dealer.hand].max_by(&:points)
-    winner.equal?(@player)
-    #winner.money = @bank.amount
-    #winner
+    [@player, @dealer].max_by(&:points)
   end
 
   def show_result_game

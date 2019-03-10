@@ -28,11 +28,24 @@ class GameMenu
 
   def user_action
     puts GameRules::ACTIONS_MENU
-    gets.to_i
+    case gets.to_i
+    when 1 then return :skip
+    when 2 then return :take_card
+    when 3 then return :open_cards
+    else input_not_correct
+    end
   end
 
   def play_again
     puts GameRules::REPEAT_GAME
     gets.to_i
+  end
+
+  def show_winner(winner)
+    puts "Победитель #{winner.name}"
+  end
+
+  def show_draw
+    puts GameRules::DRAW
   end
 end

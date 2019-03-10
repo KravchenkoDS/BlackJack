@@ -29,6 +29,10 @@ class Player
     @hand.cards
   end
 
+  def points
+    @hand.points
+  end
+
   def reset
     @hand.reset
   end

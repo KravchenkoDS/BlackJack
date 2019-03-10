@@ -12,6 +12,15 @@ class Bank
     @amount += @dealer.bet
   end
 
+  def set_start_amount
+    @money += GameRules::STARTING_MONEY
+  end
+
+  def rewarding(winner)
+    winner.add_money(@bank.amount)
+    new_game
+  end
+
   protected
 
   def new_game
