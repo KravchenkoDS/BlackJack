@@ -1,10 +1,9 @@
 class Player
   attr_accessor :name
-  attr_reader :money, :hand, :bank
+  attr_reader :hand, :bank
 
   def initialize(name)
     @name = name
-    @money = 0
     @hand = Hand.new
     @bank = Bank.new
     reset

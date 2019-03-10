@@ -2,9 +2,9 @@ class Game
   def initialize(player, dealer, interface)
     @interface = interface
     @deck = Deck.new
+    @bank = Bank.new
     @player = player
     @dealer = dealer
-    @bank = Bank.new
   end
 
   def new_game
@@ -17,7 +17,7 @@ class Game
   def initial_round
     @player.reset
     @dealer.reset
-    @bank.set_start_amount(@player, @dealer)
+    @bank.now_start_amount(@player, @dealer)
     @bank.make_bets(@player, @dealer)
     first_distribution
   end
@@ -55,7 +55,7 @@ class Game
   def totals_game
     winner = define_winner
     if winner
-      #  @bank.rewarding(winner)
+      @bank.rewarding(winner)
       @interface.show_winner(winner)
     else
       @interface.show_draw
