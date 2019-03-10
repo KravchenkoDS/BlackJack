@@ -12,8 +12,6 @@ class Bank
     @amount += @dealer.bet
   end
 
-  def give_prize; end
-
   protected
 
   def new_game

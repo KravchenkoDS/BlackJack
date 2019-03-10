@@ -1,9 +1,10 @@
 require_relative 'models/card'
-require_relative 'models/player'
+# require_relative 'models/player'
 require_relative 'models/bank'
 require_relative 'models/dealer'
 require_relative 'models/deck'
 require_relative 'models/game'
+require_relative 'models/hand'
 require_relative 'menu/game_menu'
 
 class Main
@@ -12,17 +13,13 @@ class Main
   end
 
   def start
-    game_start_message
-    @game = Game.new
-    @game.initial_game
+    @interface.game_start_message
     loop do
-      game.initial_round
-      game.new_round
-      game.totals_game
-      game.show_result_game
+      game = Game.new(@interface)
+      game.new_game
       break unless game.repeat_game?
     end
-    game_end_message
+    @interface.game_end_message
   end
 end
 

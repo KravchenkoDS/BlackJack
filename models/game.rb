@@ -3,14 +3,24 @@ require_relative '../models/player'
 require_relative '../models/bank'
 require_relative '../models/dealer'
 require_relative '../models/deck'
+require_relative '../models/hand'
+require_relative '../menu/game_menu'
+require_relative '../common/game_rules'
 
 class Game
-  def initialize(_player, _dealer, interface)
+  def initialize(interface)
+    @interface = interface
     @deck = Deck.new
     @dealer = Dealer.new
-    @player = Player.new(input_user_name)
+    @player = Player.new(@interface.input_user_name)
     @bank = Bank.new(@player, @dealer)
-    @interface = interface
+  end
+
+  def new_game
+    initial_round
+    new_round
+    totals_game
+    show_result_game
   end
 
   def initial_round
@@ -23,11 +33,11 @@ class Game
     loop do
       puts @interface.show_cards(@player)
       case player_turn
-      when :take_card then @player.give_card(@deck) if @player.can_take_card
+      when :take_card then @player.take_card(@deck) if @player.can_take_card
       when :open_cards then break
       end
       dealer_turn
-      break if @dealer.cards.size == GameRules::MAX_CARDS && @player.cards.size == GameRules::MAX_CARDS
+      break if @dealer.hand.cards.size == GameRules::MAX_CARDS && @player.hand.cards.size == GameRules::MAX_CARDS
     end
   end
 
@@ -42,12 +52,12 @@ class Game
   end
 
   def dealer_turn
-    @dealer.give_card(@deck) if @dealer.can_take_card
+    @dealer.take_card(@deck) if @dealer.can_take_card
   end
 
   def first_distribution
-    GameRules::BASIC_CARDS.times { @player.give_card(@deck) }
-    GameRules::BASIC_CARDS.times { @dealer.give_card(@deck) }
+    GameRules::BASIC_CARDS.times { @player.take_card(@deck) }
+    GameRules::BASIC_CARDS.times { @dealer.take_card(@deck) }
   end
 
   def totals_game
@@ -61,15 +71,16 @@ class Game
 
   def define_winner
     return GameRules::DRAW if @player.over? && @dealer.over?
-    return GameRules::DRAW if @player.points == @dealer.points
+    return GameRules::DRAW if @player.hand.points == @dealer.hand.points
     return GameRules::WIN_DEALER if @player.over? || @dealer == winner_on_points
     return GameRules::WIN_PLAYER if @dealer.over? || @player == winner_on_points
   end
 
   def winner_on_points
-    winner = [@player, @dealer].max_by(&:points)
-    winner.money = @bank.amount
-    winner
+    winner = [@player.hand, @dealer.hand].max_by(&:points)
+    winner.equal?(@player)
+    #winner.money = @bank.amount
+    #winner
   end
 
   def show_result_game
@@ -80,7 +91,7 @@ class Game
   end
 
   def repeat_game?
-    case play_again?
+    case @interface.play_again
     when 1 then true
     else false
     end
