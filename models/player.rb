@@ -32,15 +32,4 @@ class Player
   def over?
     @hand.points > GameRules::MAX_POINTS
   end
-
-  #   def bet
-  #     return GameRules::NO_MONEY if @money - GameRules::BET < 0
-  #
-  #     @money -= GameRules::BET
-  #     GameRules::BET
-  #   end
-
-  # def add_money(value)
-  #   @money += value
-  # end
 end

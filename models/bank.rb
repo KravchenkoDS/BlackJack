@@ -18,6 +18,7 @@ class Bank
   end
 
   def now_start_amount(player, dealer)
+    new_game
     player.bank.money += GameRules::STARTING_MONEY
     dealer.bank.money += GameRules::STARTING_MONEY
   end

@@ -23,7 +23,7 @@ class GameMenu
   end
 
   def show_money(player)
-    puts "Количества денег у '#{player.name}' -- #{player.money}"
+    puts "Количества денег у '#{player.name}' -- #{player.bank.money}"
   end
 
   def user_action
