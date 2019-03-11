@@ -32,8 +32,8 @@ class Game
       break if player_turn == :open_cards
 
       dealer_turn
-      break if @dealer.hand.cards.size == GameRules::MAX_CARDS && @player.hand.cards.size == GameRules::MAX_CARDS
-      # break if @dealer.can_take_card? && @player.can_take_card?
+
+      break if @dealer.can_take_card? == false && @player.can_take_card? == false
     end
   end
 
