@@ -1,15 +1,29 @@
 require_relative '../common/game_rules'
 class GameMenu
+  GAME_START = 'Приветствую тебя в игре BlackJack'.freeze
+  INPUT_PLAYER_NAME = 'Введите Ваше имя'.freeze
+  GAME_END = 'Игра окончена!'.freeze
+  NO_MONEY = 'Нет денег'.freeze
+  REPEAT_GAME = 'Для повтора игры нажмите - 1. Либо любую другую для выхода'.freeze
+  DRAW = 'Ничья!'.freeze
+  NOT_ENOUGH_MONEY = 'Недостаточно денег'.freeze
+
+  ACTIONS_MENU = [
+    '1 - Пропустить ход',
+    '2 - Добавить карту',
+    '3 - Открыть карты'
+  ].freeze
+
   def game_start_message
-    puts GameRules::GAME_START
+    puts GAME_START
   end
 
   def game_end_message
-    puts GameRules::GAME_END
+    puts GAME_END
   end
 
   def input_user_name
-    puts GameRules::INPUT_PLAYER_NAME
+    puts INPUT_PLAYER_NAME
     gets.chomp.to_s.capitalize!
   end
 
@@ -27,7 +41,7 @@ class GameMenu
   end
 
   def user_action
-    puts GameRules::ACTIONS_MENU
+    puts ACTIONS_MENU
     case gets.to_i
     when 1 then return :skip
     when 2 then return :take_card
@@ -37,7 +51,7 @@ class GameMenu
   end
 
   def play_again
-    puts GameRules::REPEAT_GAME
+    puts REPEAT_GAME
     gets.to_i
   end
 
@@ -46,6 +60,6 @@ class GameMenu
   end
 
   def show_draw
-    puts GameRules::DRAW
+    puts DRAW
   end
 end

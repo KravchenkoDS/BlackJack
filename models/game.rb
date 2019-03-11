@@ -24,27 +24,29 @@ class Game
 
   def new_round
     loop do
-      puts @interface.show_cards(@player)
+      @interface.show_cards(@player)
 
-      break if player_turn
+      # break if player_turn
+      break if player_turn == :open_cards
 
       dealer_turn
       break if @dealer.hand.cards.size == GameRules::MAX_CARDS && @player.hand.cards.size == GameRules::MAX_CARDS
+      # break if @dealer.can_take_card? && @player.can_take_card?
     end
   end
 
   def player_turn
     user_choice = @interface.user_action
     case user_choice
-    when :skip then return false
-    when :take_card then @player.take_card(@deck) if @player.can_take_card
-    when :open_cards then true
+    when :skip then return :skip
+    when :take_card then @player.take_card(@deck) if @player.can_take_card?
+    when :open_cards then :open_cards
     else @interface.input_not_correct
     end
   end
 
   def dealer_turn
-    @dealer.take_card(@deck) if @dealer.can_take_card
+    @dealer.take_card(@deck) if @dealer.can_take_card?
   end
 
   def first_distribution
@@ -63,10 +65,11 @@ class Game
   end
 
   def define_winner
-    return if @dealer.points > GameRules::MAX_POINTS && @player.points > GameRules::MAX_POINTS
+    # return if @dealer.points > GameRules::MAX_POINTS && @player.points > GameRules::MAX_POINTS
+    return if @dealer.over? && @player.over?
     return if @dealer.points == @player.points
-    return @player if @dealer.points > GameRules::MAX_POINTS
-    return @dealer if @player.points > GameRules::MAX_POINTS
+    return @player if @dealer.over?
+    return @dealer if @player.over?
 
     [@player, @dealer].max_by(&:points)
   end

@@ -1,5 +1,6 @@
 require_relative '../models/player'
 require_relative '../models/dealer'
+require_relative '../menu/game_menu'
 
 class Bank
   attr_accessor :money
@@ -7,6 +8,24 @@ class Bank
 
   def initialize
     new_game
+  end
+
+  def initialize_amount
+    @amount = GameRules::STARTING_MONEY
+  end
+
+  def withdraw_amount(amount)
+    raise GameMenu::NOT_ENOUGH_MONEY if @amount - amount < 0
+
+    @amount -= amount
+  end
+
+  def add_amount(amount)
+    @amount += amount
+  end
+
+  def reset
+    @amount = 0
   end
 
   def make_bets(player, dealer)
@@ -32,7 +51,7 @@ class Bank
   end
 
   def get_money(player, money)
-    return GameRules::NO_MONEY if player.bank.money - money < 0
+    return GameMenu::NO_MONEY if player.bank.money - money < 0
 
     player.bank.money -= money
   end

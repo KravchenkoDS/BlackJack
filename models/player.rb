@@ -25,7 +25,7 @@ class Player
     @hand.reset
   end
 
-  def can_take_card
+  def can_take_card?
     cards.size < GameRules::MAX_CARDS
   end
 
