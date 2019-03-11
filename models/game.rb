@@ -3,25 +3,24 @@ class Game
     @interface = interface
     @deck = Deck.new
     @bank = Bank.new
-    @croupier = Croupier.new
+    @accountant = Accountant.new
     @player = player
     @dealer = dealer
+    @accountant.new_game(@player)
+    @accountant.new_game(@dealer)
   end
 
-  def new_game
+  def run
     initial_round
     new_round
     totals_game
     show_result_game
+    clear_hands
   end
 
   def initial_round
-    @player.reset
-    @dealer.reset
-    @croupier.new_game(@player)
-    @croupier.new_game(@dealer)
-    @croupier.bet(@bank, @player)
-    @croupier.bet(@bank, @dealer)
+    @accountant.bet(@bank, @player)
+    @accountant.bet(@bank, @dealer)
     first_distribution
   end
 
@@ -33,18 +32,17 @@ class Game
 
       dealer_turn
 
-      break if @dealer.can_take_card? == false && @player.can_take_card? == false
+      break if !@dealer.can_take_card? && !@player.can_take_card?
     end
   end
 
   def player_turn
-    user_choice = @interface.user_action
-    case user_choice
-    when :skip then return :skip
-    when :take_card then @player.take_card(@deck) if @player.can_take_card?
-    when :open_cards then :open_cards
-    else @interface.input_not_correct
+    action_index = @interface.user_action - 1
+    case GameMenu::ACTIONS[action_index]
+    when :take_card then
+      @player.take_card(@deck) if @player.can_take_card?
     end
+    GameMenu::ACTIONS[action_index]
   end
 
   def dealer_turn
@@ -59,10 +57,12 @@ class Game
   def totals_game
     winner = define_winner
     if winner
-      @croupier.reward(@bank, winner)
+      @accountant.reward(@bank, winner)
       @interface.show_winner(winner)
     else
       @interface.show_draw
+      @accountant.refund(@bank, @player)
+      @accountant.refund(@bank, @dealer)
     end
   end
 
@@ -82,10 +82,12 @@ class Game
     @interface.show_money(@dealer)
   end
 
+  def clear_hands
+    @player.reset
+    @dealer.reset
+  end
+
   def repeat_game?
-    case @interface.play_again
-    when 1 then true
-    else false
-    end
+    @interface.play_again
   end
 end

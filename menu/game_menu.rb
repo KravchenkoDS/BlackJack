@@ -14,6 +14,10 @@ class GameMenu
     '3 - Открыть карты'
   ].freeze
 
+  # rubocop:disable Style/MutableConstant, Style/SymbolArray
+  ACTIONS = [:skip, :take_card, :open_cards]
+  # rubocop:enable Style/MutableConstant, Style/SymbolArray
+
   def game_start_message
     puts GAME_START
   end
@@ -37,22 +41,17 @@ class GameMenu
   end
 
   def show_money(player)
-    puts "Количества денег у '#{player.name}' -- #{player.bank.amount}"
+    puts "Количество денег у '#{player.name}' -- #{player.bank.amount}"
   end
 
   def user_action
     puts ACTIONS_MENU
-    case gets.to_i
-    when 1 then return :skip
-    when 2 then return :take_card
-    when 3 then return :open_cards
-    else input_not_correct
-    end
+    gets.to_i
   end
 
   def play_again
     puts REPEAT_GAME
-    gets.to_i
+    gets.to_i == 1
   end
 
   def show_winner(winner)
@@ -61,5 +60,9 @@ class GameMenu
 
   def show_draw
     puts DRAW
+  end
+
+  def show_message(message)
+    puts message
   end
 end

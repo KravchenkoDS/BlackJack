@@ -10,7 +10,7 @@ class Bank
   end
 
   def withdraw_amount(amount)
-    raise GameMenu::NOT_ENOUGH_MONEY if @amount - amount < 0
+    return GameMenu::NOT_ENOUGH_MONEY if @amount - amount < 0
 
     @amount -= amount
   end
@@ -21,5 +21,9 @@ class Bank
 
   def reset
     @amount = 0
+  end
+
+  def empty?
+    amount < GameRules::BET
   end
 end

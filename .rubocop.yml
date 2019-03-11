@@ -6,3 +6,9 @@ Style/Documentation:
 
 Style/MultipleComparison:
   Enabled: false
+
+Style/SpecialGlobalVars:
+  Enabled: false
+
+Style/RescueStandardError:
+  Enabled: false

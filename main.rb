@@ -5,7 +5,7 @@ require_relative 'models/dealer'
 require_relative 'models/deck'
 require_relative 'models/game'
 require_relative 'models/hand'
-require_relative 'models/croupier'
+require_relative 'models/accountant'
 require_relative 'menu/game_menu'
 
 class Main
@@ -19,7 +19,8 @@ class Main
     @dealer = Dealer.new
     loop do
       game = Game.new(@player, @dealer, @interface)
-      game.new_game
+      game.run
+      @interface.show_message(GameMenu::NOT_ENOUGH_MONEY) if @player.bank.empty? || @dealer.bank.empty?
       break unless game.repeat_game?
     end
     @interface.game_end_message
