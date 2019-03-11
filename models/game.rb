@@ -3,6 +3,7 @@ class Game
     @interface = interface
     @deck = Deck.new
     @bank = Bank.new
+    @accountant = Accountant.new
     @player = player
     @dealer = dealer
   end
@@ -17,8 +18,8 @@ class Game
   def initial_round
     @player.reset
     @dealer.reset
-    @bank.now_start_amount(@player, @dealer)
-    @bank.make_bets(@player, @dealer)
+    #@bank.now_start_amount(@player, @dealer)
+    #@bank.make_bets(@player, @dealer)
     first_distribution
   end
 

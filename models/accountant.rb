@@ -1,4 +1,4 @@
-class Accountant
+class Croupier
   attr_reader :amount
 
   def initialize

@@ -28,6 +28,7 @@ class Bank
     @amount = 0
   end
 
+=begin
   def make_bets(player, dealer)
     get_money(player, player.bank.bet)
     get_money(dealer, dealer.bank.bet)
@@ -55,6 +56,7 @@ class Bank
 
     player.bank.money -= money
   end
+=end
 
   protected
 
