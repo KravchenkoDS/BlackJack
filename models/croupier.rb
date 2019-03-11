@@ -14,4 +14,9 @@ class Croupier
     winner.bank.add_amount(game_bank.amount)
     game_bank.reset
   end
+
+  def new_game(player)
+    player.bank.reset
+    @amount = 0
+  end
 end
