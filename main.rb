@@ -5,6 +5,7 @@ require_relative 'models/dealer'
 require_relative 'models/deck'
 require_relative 'models/game'
 require_relative 'models/hand'
+require_relative 'models/croupier'
 require_relative 'menu/game_menu'
 
 class Main

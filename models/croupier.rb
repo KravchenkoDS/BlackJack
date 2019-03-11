@@ -1,5 +1,5 @@
 class Croupier
-  attr_reader :amount
+  attr_accessor :amount
 
   def initialize
     @amount = 0
@@ -18,5 +18,12 @@ class Croupier
   def new_game(player)
     player.bank.reset
     @amount = 0
+    initial_amount(player)
+  end
+
+  private
+
+  def initial_amount(player)
+    player.bank.add_amount(GameRules::STARTING_MONEY)
   end
 end

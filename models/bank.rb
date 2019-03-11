@@ -3,11 +3,10 @@ require_relative '../models/dealer'
 require_relative '../menu/game_menu'
 
 class Bank
-  # attr_accessor :money
   attr_reader :amount
 
   def initialize
-    @amount = GameRules::STARTING_MONEY
+    @amount = 0
   end
 
   def withdraw_amount(amount)
@@ -21,6 +20,6 @@ class Bank
   end
 
   def reset
-    @amount = GameRules::STARTING_MONEY
+    @amount = 0
   end
 end

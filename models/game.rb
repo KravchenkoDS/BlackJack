@@ -18,10 +18,10 @@ class Game
   def initial_round
     @player.reset
     @dealer.reset
+    @croupier.new_game(@player)
+    @croupier.new_game(@dealer)
     @croupier.bet(@bank, @player)
     @croupier.bet(@bank, @dealer)
-    # @bank.now_start_amount(@player, @dealer)
-    # @bank.make_bets(@player, @dealer)
     first_distribution
   end
 
@@ -29,7 +29,6 @@ class Game
     loop do
       @interface.show_cards(@player)
 
-      # break if player_turn
       break if player_turn == :open_cards
 
       dealer_turn
@@ -60,7 +59,6 @@ class Game
   def totals_game
     winner = define_winner
     if winner
-      # @bank.rewarding(winner)
       @croupier.reward(@bank, winner)
       @interface.show_winner(winner)
     else
@@ -69,7 +67,6 @@ class Game
   end
 
   def define_winner
-    # return if @dealer.points > GameRules::MAX_POINTS && @player.points > GameRules::MAX_POINTS
     return if @dealer.over? && @player.over?
     return if @dealer.points == @player.points
     return @player if @dealer.over?
