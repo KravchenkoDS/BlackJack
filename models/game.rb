@@ -11,36 +11,43 @@ class Game
   end
 
   def run
-    initial_round
-    new_round
-    totals_game
-    show_result_game
-    clear_hands
+    loop do
+      show_draw; break if initial_round == GameMenu::DRAW
+
+      new_round
+      totals_game
+    end
   end
 
   def initial_round
-    @accountant.bet(@bank, @player)
-    @accountant.bet(@bank, @dealer)
+    @accountant.bet(@bank, @player, @dealer)
+  rescue
+    GameMenu::DRAW
+  else
     first_distribution
   end
 
   def new_round
-    loop do
-      @interface.show_cards(@player)
+    @interface.show_cards(@player)
 
-      break if player_turn == :open_cards
+    return if player_turn == :open_cards
 
-      dealer_turn
+    dealer_turn
 
-      break if !@dealer.can_take_card? && !@player.can_take_card?
-    end
+    return if !@dealer.can_take_card? && !@player.can_take_card?
+  end
+
+  def show_draw
+    @interface.show_message("У #{@player.name} #{GameMenu::NOT_ENOUGH_MONEY}") if @player.bank.empty?
+    @interface.show_message("У #{@dealer.name} #{GameMenu::NOT_ENOUGH_MONEY}") if @dealer.bank.empty?
+
+    totals_game if @player.bank.empty? || @dealer.bank.empty?
   end
 
   def player_turn
     action_index = @interface.user_action - 1
     case GameMenu::ACTIONS[action_index]
-    when :take_card then
-      @player.take_card(@deck) if @player.can_take_card?
+    when :take_card then @player.take_card(@deck) if @player.can_take_card?
     end
     GameMenu::ACTIONS[action_index]
   end
@@ -61,9 +68,10 @@ class Game
       @interface.show_winner(winner)
     else
       @interface.show_draw
-      @accountant.refund(@bank, @player)
-      @accountant.refund(@bank, @dealer)
+      @accountant.refund(@bank, @player, @dealer)
     end
+    show_result_game
+    clear_hands
   end
 
   def define_winner

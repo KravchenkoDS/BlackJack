@@ -1,18 +1,13 @@
 class Accountant
-  attr_accessor :amount
-
-  def initialize
-    @amount = 0
-  end
-
   def new_game(player)
     player.bank.reset
-    @amount = 0
     initial_amount(player)
   end
 
-  def refund(game_bank, player)
-    player.bank.add_amount(GameRules::BET) if game_bank.withdraw_amount(GameRules::BET) != GameMenu::NOT_ENOUGH_MONEY
+  def refund(game_bank, *players)
+    refund_amount = game_bank.amount / players.size
+    players.each { |player| player.bank.add_amount(refund_amount) }
+    game_bank.reset
   end
 
   def reward(game_bank, winner)
@@ -20,8 +15,8 @@ class Accountant
     game_bank.reset
   end
 
-  def bet(game_bank, player)
-    game_bank.add_amount(GameRules::BET) if player.bank.withdraw_amount(GameRules::BET) != GameMenu::NOT_ENOUGH_MONEY
+  def bet(game_bank, *players)
+    game_bank.add_amount(GameRules::BET * players.size) if players.each { |player| player.bank.withdraw_amount(GameRules::BET) }
   end
 
   private

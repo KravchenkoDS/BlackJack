@@ -1,6 +1,7 @@
 require_relative '../models/player'
 require_relative '../models/dealer'
 require_relative '../menu/game_menu'
+require_relative '../common/game_rules'
 
 class Bank
   attr_reader :amount
@@ -10,7 +11,7 @@ class Bank
   end
 
   def withdraw_amount(amount)
-    return GameMenu::NOT_ENOUGH_MONEY if @amount - amount < 0
+    raise GameMenu::NOT_ENOUGH_MONEY if @amount - amount < 0
 
     @amount -= amount
   end
@@ -24,6 +25,6 @@ class Bank
   end
 
   def empty?
-    amount < GameRules::BET
+    @amount < GameRules::BET
   end
 end

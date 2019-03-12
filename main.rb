@@ -20,7 +20,6 @@ class Main
     loop do
       game = Game.new(@player, @dealer, @interface)
       game.run
-      @interface.show_message(GameMenu::NOT_ENOUGH_MONEY) if @player.bank.empty? || @dealer.bank.empty?
       break unless game.repeat_game?
     end
     @interface.game_end_message
