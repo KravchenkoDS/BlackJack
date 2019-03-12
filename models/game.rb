@@ -10,14 +10,6 @@ class Game
     @accountant.new_game(@dealer)
   end
 
-  #   def run
-  #     loop do
-  #       show_draw; break if initial_round == GameMenu::DRAW
-  #
-  #       new_round
-  #       totals_game
-  #     end
-  #   end
   def run
     play_game
     winner = define_winner
