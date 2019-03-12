@@ -6,16 +6,16 @@ class GameMenu
   NO_MONEY = 'Нет денег'.freeze
   REPEAT_GAME = 'Для повтора игры нажмите - 1. Либо любую другую для выхода'.freeze
   DRAW = 'Ничья!'.freeze
-  NOT_ENOUGH_MONEY = 'Недостаточно денег'.freeze
 
   ACTIONS_MENU = [
     '1 - Пропустить ход',
     '2 - Добавить карту',
-    '3 - Открыть карты'
+    '3 - Открыть карты',
+    '4 - Прервать игру'
   ].freeze
 
   # rubocop:disable Style/MutableConstant, Style/SymbolArray
-  ACTIONS = [:skip, :take_card, :open_cards]
+  ACTIONS = [:skip, :take_card, :open_cards, :break_game]
   # rubocop:enable Style/MutableConstant, Style/SymbolArray
 
   def game_start_message
@@ -54,15 +54,22 @@ class GameMenu
     gets.to_i == 1
   end
 
-  def show_winner(winner)
-    puts "Победитель #{winner.name}"
-  end
-
-  def show_draw
-    puts DRAW
+  def show_result(player)
+    winner(player) unless player.nil?
+    draw if player.nil?
   end
 
   def show_message(message)
     puts message
+  end
+
+  private
+
+  def draw
+    puts DRAW
+  end
+
+  def winner(player)
+    puts "Победитель #{player.name}" unless player.nil?
   end
 end

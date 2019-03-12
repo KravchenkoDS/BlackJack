@@ -5,6 +5,7 @@ require_relative '../common/game_rules'
 
 class Bank
   attr_reader :amount
+  NOT_ENOUGH_MONEY = 'Недостаточно денег'.freeze
 
   def initialize
     @amount = 0

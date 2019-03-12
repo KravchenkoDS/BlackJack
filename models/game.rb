@@ -10,13 +10,20 @@ class Game
     @accountant.new_game(@dealer)
   end
 
+  #   def run
+  #     loop do
+  #       show_draw; break if initial_round == GameMenu::DRAW
+  #
+  #       new_round
+  #       totals_game
+  #     end
+  #   end
   def run
-    loop do
-      show_draw; break if initial_round == GameMenu::DRAW
-
-      new_round
-      totals_game
-    end
+    play_game
+    winner = define_winner
+    @interface.show_result(winner)
+    totals_game
+    @interface.game_end_message
   end
 
   def initial_round
@@ -27,21 +34,32 @@ class Game
     first_distribution
   end
 
-  def new_round
-    @interface.show_cards(@player)
+  def play_game
+    loop do
+      break unless can_start_round?
 
-    return if player_turn == :open_cards
-
-    dealer_turn
-
-    return if !@dealer.can_take_card? && !@player.can_take_card?
+      break if new_round == :break_game || :open_cards || GameMenu::DRAW
+    end
   end
 
-  def show_draw
-    @interface.show_message("У #{@player.name} #{GameMenu::NOT_ENOUGH_MONEY}") if @player.bank.empty?
-    @interface.show_message("У #{@dealer.name} #{GameMenu::NOT_ENOUGH_MONEY}") if @dealer.bank.empty?
+  def new_round
+    return if initial_round == GameMenu::DRAW
 
-    totals_game if @player.bank.empty? || @dealer.bank.empty?
+    loop do
+      @interface.show_cards(@player)
+
+      return_value = player_turn
+      return :open_cards if return_value == :open_cards
+      return :break_game if return_value == :break_game
+
+      dealer_turn
+
+      return :open_cards if !@dealer.can_take_card? && !@player.can_take_card?
+    end
+  end
+
+  def can_start_round?
+    !@player.bank.empty? && !@dealer.bank.empty?
   end
 
   def player_turn
@@ -63,20 +81,14 @@ class Game
 
   def totals_game
     winner = define_winner
-    if winner
-      @accountant.reward(@bank, winner)
-      @interface.show_winner(winner)
-    else
-      @interface.show_draw
-      @accountant.refund(@bank, @player, @dealer)
-    end
+    @accountant.reward(@bank, winner) if winner
+    @accountant.refund(@bank, @player, @dealer) if winner.nil?
     show_result_game
-    clear_hands
   end
 
   def define_winner
-    return if @dealer.over? && @player.over?
-    return if @dealer.points == @player.points
+    return nil if @dealer.points == @player.points
+
     return @player if @dealer.over?
     return @dealer if @player.over?
 
@@ -84,10 +96,14 @@ class Game
   end
 
   def show_result_game
+    @interface.show_result(winner)
+
     @interface.show_cards(@player)
     @interface.show_money(@player)
     @interface.show_cards(@dealer)
     @interface.show_money(@dealer)
+
+    clear_hands
   end
 
   def clear_hands
