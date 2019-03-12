@@ -12,8 +12,6 @@ class Game
 
   def run
     play_game
-    winner = define_winner
-    @interface.show_result(winner)
     totals_game
     @interface.game_end_message
   end
@@ -75,7 +73,7 @@ class Game
     winner = define_winner
     @accountant.reward(@bank, winner) if winner
     @accountant.refund(@bank, @player, @dealer) if winner.nil?
-    show_result_game
+    show_result_game(winner)
   end
 
   def define_winner
@@ -87,7 +85,7 @@ class Game
     [@player, @dealer].max_by(&:points)
   end
 
-  def show_result_game
+  def show_result_game(winner)
     @interface.show_result(winner)
 
     @interface.show_cards(@player)
