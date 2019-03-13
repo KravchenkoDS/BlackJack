@@ -1,8 +1,8 @@
 class Game
   ACTIONS = %i(skip take_card open_cards break_game).freeze
-  def initialize(interface)
-    @interface = interface
-    @player = Player.new(interface.input_user_name)
+  def initialize
+    @interface = GameMenu.new
+    @player = Player.new(@interface.input_user_name)
     @dealer = Dealer.new
     @deck = Deck.new
     @bank = Bank.new
@@ -12,7 +12,7 @@ class Game
   def run
     game_preparation
     play_game
-    totals_game
+
     @interface.game_end_message
   end
 
@@ -27,12 +27,14 @@ class Game
       break unless can_start_round?
 
       play_round
+      totals_game
+
       break unless continue?
     end
   end
 
   def play_round
-    return if round_preparation == GameMenu::DRAW
+    round_preparation
 
     loop do
       @interface.show_cards(@player)
@@ -53,14 +55,6 @@ class Game
     @interface.exit_with_error
     exit
   end
-
-  #   def round_preparation
-  #     @accountant.bet(@bank, @player, @dealer)
-  #   rescue
-  #     GameMenu::DRAW
-  #   else
-  #     first_distribution
-  #   end
 
   def can_start_round?
     !@player.bank.empty? && !@dealer.bank.empty?
