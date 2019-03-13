@@ -3,8 +3,9 @@ class Game
   ACTIONS = [:skip, :take_card, :open_cards, :break_game]
   # rubocop:enable Style/MutableConstant, Style/SymbolArray
   #
-  def initialize
-    @player = Player.new(@interface.input_user_name)
+  def initialize(interface)
+    @interface = interface
+    @player = Player.new(interface.input_user_name)
     @dealer = Dealer.new
     @deck = Deck.new
     @bank = Bank.new

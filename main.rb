@@ -15,7 +15,7 @@ class Main
 
   def start
     loop do
-      game = Game.new
+      game = Game.new(@interface)
       game.run
       break unless game.repeat_game?
     end
