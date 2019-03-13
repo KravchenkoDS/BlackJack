@@ -6,46 +6,50 @@ class Game
     @accountant = Accountant.new
     @player = player
     @dealer = dealer
-    @accountant.new_game(@player)
-    @accountant.new_game(@dealer)
   end
 
   def run
+    game_preparation
     play_game
     totals_game
     @interface.game_end_message
   end
 
-  def initial_round
-    @accountant.bet(@bank, @player, @dealer)
-  rescue
-    GameMenu::DRAW
-  else
-    first_distribution
+  def game_preparation
+    @accountant.new_game(@player)
+    @accountant.new_game(@dealer)
   end
 
   def play_game
     loop do
       break unless can_start_round?
 
-      break if new_round == :break_game || :open_cards || GameMenu::DRAW
+      play_round
+      break unless continue?
     end
   end
 
-  def new_round
-    return if initial_round == GameMenu::DRAW
+  def play_round
+    return if round_preparation == GameMenu::DRAW
 
     loop do
       @interface.show_cards(@player)
 
       return_value = player_turn
       return :open_cards if return_value == :open_cards
-      return :break_game if return_value == :break_game
 
       dealer_turn
 
       return :open_cards if !@dealer.can_take_card? && !@player.can_take_card?
     end
+  end
+
+  def round_preparation
+    @accountant.bet(@bank, @player, @dealer)
+  rescue
+    GameMenu::DRAW
+  else
+    first_distribution
   end
 
   def can_start_round?
@@ -103,5 +107,9 @@ class Game
 
   def repeat_game?
     @interface.play_again
+  end
+
+  def continue?
+    @interface.continue_round?
   end
 end

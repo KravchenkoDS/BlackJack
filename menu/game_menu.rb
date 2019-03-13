@@ -4,14 +4,14 @@ class GameMenu
   INPUT_PLAYER_NAME = 'Введите Ваше имя'.freeze
   GAME_END = 'Игра окончена!'.freeze
   NO_MONEY = 'Нет денег'.freeze
-  REPEAT_GAME = 'Для повтора игры нажмите - 1. Либо любую другую для выхода'.freeze
+  REPEAT_GAME = 'Для повтора игры нажмите - 1. Либо любую другую для выхода.'.freeze
   DRAW = 'Ничья!'.freeze
+  CONTINUE = 'Чтобы продолжить раунд, нажмите - 1. Либо любую другую для завершения.'.freeze
 
   ACTIONS_MENU = [
     '1 - Пропустить ход',
     '2 - Добавить карту',
     '3 - Открыть карты',
-    '4 - Прервать игру'
   ].freeze
 
   # rubocop:disable Style/MutableConstant, Style/SymbolArray
@@ -51,6 +51,11 @@ class GameMenu
 
   def play_again
     puts REPEAT_GAME
+    gets.to_i == 1
+  end
+
+  def continue_round?
+    puts CONTINUE
     gets.to_i == 1
   end
 
