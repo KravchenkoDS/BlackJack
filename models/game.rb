@@ -1,8 +1,5 @@
 class Game
-  # rubocop:disable Style/MutableConstant, Style/SymbolArray
-  ACTIONS = [:skip, :take_card, :open_cards, :break_game]
-  # rubocop:enable Style/MutableConstant, Style/SymbolArray
-  #
+  ACTIONS = %i(skip take_card open_cards break_game).freeze
   def initialize(interface)
     @interface = interface
     @player = Player.new(interface.input_user_name)
