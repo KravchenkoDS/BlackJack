@@ -1,11 +1,14 @@
 class Game
-  def initialize(player, dealer, interface)
-    @interface = interface
+  # rubocop:disable Style/MutableConstant, Style/SymbolArray
+  ACTIONS = [:skip, :take_card, :open_cards, :break_game]
+  # rubocop:enable Style/MutableConstant, Style/SymbolArray
+  #
+  def initialize
+    @player = Player.new(@interface.input_user_name)
+    @dealer = Dealer.new
     @deck = Deck.new
     @bank = Bank.new
     @accountant = Accountant.new
-    @player = player
-    @dealer = dealer
   end
 
   def run
@@ -16,6 +19,7 @@ class Game
   end
 
   def game_preparation
+    @interface.game_start_message
     @accountant.new_game(@player)
     @accountant.new_game(@dealer)
   end
@@ -46,11 +50,19 @@ class Game
 
   def round_preparation
     @accountant.bet(@bank, @player, @dealer)
-  rescue
-    GameMenu::DRAW
-  else
     first_distribution
+  rescue
+    @interface.exit_with_error
+    exit
   end
+
+  #   def round_preparation
+  #     @accountant.bet(@bank, @player, @dealer)
+  #   rescue
+  #     GameMenu::DRAW
+  #   else
+  #     first_distribution
+  #   end
 
   def can_start_round?
     !@player.bank.empty? && !@dealer.bank.empty?
@@ -58,10 +70,10 @@ class Game
 
   def player_turn
     action_index = @interface.user_action - 1
-    case GameMenu::ACTIONS[action_index]
+    case ACTIONS[action_index]
     when :take_card then @player.take_card(@deck) if @player.can_take_card?
     end
-    GameMenu::ACTIONS[action_index]
+    ACTIONS[action_index]
   end
 
   def dealer_turn

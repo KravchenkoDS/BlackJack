@@ -1,0 +1,1 @@
+class BetError < StandardError; end

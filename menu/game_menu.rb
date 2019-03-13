@@ -7,16 +7,13 @@ class GameMenu
   REPEAT_GAME = 'Для повтора игры нажмите - 1. Либо любую другую для выхода.'.freeze
   DRAW = 'Ничья!'.freeze
   CONTINUE = 'Чтобы продолжить раунд, нажмите - 1. Либо любую другую для завершения.'.freeze
+  EXIT_WITH_ERROR = 'Ошибка исполнения. Приложение будет закрыто.'.freeze
 
   ACTIONS_MENU = [
     '1 - Пропустить ход',
     '2 - Добавить карту',
-    '3 - Открыть карты',
+    '3 - Открыть карты'
   ].freeze
-
-  # rubocop:disable Style/MutableConstant, Style/SymbolArray
-  ACTIONS = [:skip, :take_card, :open_cards, :break_game]
-  # rubocop:enable Style/MutableConstant, Style/SymbolArray
 
   def game_start_message
     puts GAME_START
@@ -66,6 +63,10 @@ class GameMenu
 
   def show_message(message)
     puts message
+  end
+
+  def exit_with_error
+    show_message(EXIT_WITH_ERROR)
   end
 
   private

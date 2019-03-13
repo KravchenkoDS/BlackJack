@@ -14,11 +14,8 @@ class Main
   end
 
   def start
-    @interface.game_start_message
-    @player = Player.new(@interface.input_user_name)
-    @dealer = Dealer.new
     loop do
-      game = Game.new(@player, @dealer, @interface)
+      game = Game.new
       game.run
       break unless game.repeat_game?
     end
