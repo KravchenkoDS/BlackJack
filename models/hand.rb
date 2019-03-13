@@ -13,18 +13,19 @@ class Hand
 
   def give_card(deck)
     @cards << deck.give_card
-    ace_corrector_point
   end
 
   def points
-    @cards.map(&:point).sum
+    points_sum = @cards.map(&:point).sum
+    ace_correction(points_sum)
   end
 
   private
 
-  def ace_corrector_point
+  def ace_correction(points)
     @cards.each do |card|
-      card.point -= GameRules::MIN_VALUE_ACE if card.ace? && @points > GameRules::MAX_POINTS
+      points -= GameRules::MIN_VALUE_ACE if card.ace? && points > GameRules::MAX_POINTS
     end
+    points
   end
 end
