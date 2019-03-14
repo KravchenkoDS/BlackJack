@@ -7,6 +7,7 @@ require_relative 'models/game'
 require_relative 'models/hand'
 require_relative 'models/accountant'
 require_relative 'menu/game_menu'
+require_relative 'common/errors'
 
 class Main
   def start

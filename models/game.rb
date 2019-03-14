@@ -85,8 +85,8 @@ class Game
   end
 
   def define_winner
-    return nil if @dealer.points == @player.points
-
+    return if @dealer.over? && @player.over?
+    return if @dealer.points == @player.points
     return @player if @dealer.over?
     return @dealer if @player.over?
 
