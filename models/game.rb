@@ -40,6 +40,7 @@ class Game
       @interface.show_cards(@player)
 
       return_value = player_turn
+
       return :open_cards if return_value == :open_cards
 
       dealer_turn
