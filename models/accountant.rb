@@ -15,10 +15,6 @@ class Accountant
     game_bank.reset
   end
 
-  # def bet(game_bank, *players)
-  #   game_bank.add_amount(GameRules::BET * players.size) if players.each { |player| player.bank.withdraw_amount(GameRules::BET) }
-  # end
-
   def bet(game_bank, *players)
     raise BetError if players.any? { |player| player.bank.empty? }
 
